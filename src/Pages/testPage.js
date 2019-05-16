@@ -37,11 +37,6 @@ class TestPage extends Component {
       <div>
         <input type="file" onChange={event => this.uploadImage(event)} />
         <button onClick={() => this.handleUpload()}>Upload!</button>
-        <input
-          type="datetime-local"
-          name="txtDateTime"
-          onChange={this.onChange}
-        />
       </div>
     );
   }
