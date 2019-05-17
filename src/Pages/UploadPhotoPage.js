@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-class TestPage extends Component {
+class UploadPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -9,10 +9,13 @@ class TestPage extends Component {
       uri: "http://localhost:5000/get/photos/" + "profile-1558077271013.jpg"
     };
   }
-  setImage(event) {
-    console.log(event);
+  // Begin ฟังชั่น เลือกรูป แล้วเก็บไว้ใน state
+  selectedImage(event) {
     this.setState({ selectedFile: event.target.files[0] });
   }
+  // End ฟังชั่น เลือกรูป แล้วเก็บไว้ใน state
+
+  // Begin ฟังชั่น Upload รูปผ่าน API
   handleUpload() {
     const formData = new FormData();
     formData.append(
@@ -30,6 +33,8 @@ class TestPage extends Component {
         console.log(err);
       });
   }
+  // End ฟังชั่น Upload รูปผ่าน API
+
   onChange(event) {
     console.log(event.target.value);
   }
@@ -37,7 +42,9 @@ class TestPage extends Component {
     return (
       <div>
         <br />
-        <input type="file" onChange={event => this.setImage(event)} />
+        {/* begin ส่วนของการอัพโหลดรูป */}
+        <input type="file" onChange={event => this.selectedImage(event)} />
+        {/* end ส่วนของการอัพโหลดรูป */}
         <button onClick={() => this.handleUpload()}>Upload!</button>
         <br />
         <br />
@@ -47,6 +54,4 @@ class TestPage extends Component {
   }
 }
 
-export default TestPage;
-
-//โครงสร้าง Component ของ  React js
+export default UploadPage;
