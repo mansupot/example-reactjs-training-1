@@ -6,19 +6,23 @@ class TestPage extends Component {
     super(props);
     this.state = {
       selectedFile: null,
-      appendFormData: null
+      uri: "http://localhost:5000/get/photos/" + "profile-1558077271013.jpg"
     };
   }
   setImage(event) {
-    const selectedFile = event.target.files[0];
-    const formData = new FormData();
-    formData.append("profile", selectedFile, selectedFile.name);
-    console.log(formData);
-    this.setState({ appendFormData: formData });
+    console.log(event);
+    this.setState({ selectedFile: event.target.files[0] });
   }
   handleUpload() {
+    const formData = new FormData();
+    formData.append(
+      "profile",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+    console.log("FormData sent to ", formData);
     axios
-      .post("http://localhost:5000/uploadfile", this.state.appendFormData)
+      .post("http://localhost:5000/uploadfile", formData)
       .then(res => {
         console.log(res.data);
       })
@@ -32,8 +36,12 @@ class TestPage extends Component {
   render() {
     return (
       <div>
+        <br />
         <input type="file" onChange={event => this.setImage(event)} />
         <button onClick={() => this.handleUpload()}>Upload!</button>
+        <br />
+        <br />
+        <img src={this.state.uri} width="30%" />
       </div>
     );
   }
