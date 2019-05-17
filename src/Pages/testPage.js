@@ -5,23 +5,20 @@ class TestPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedFile: null
+      selectedFile: null,
+      appendFormData: null
     };
   }
-  uploadImage(event) {
-    this.setState({ selectedFile: event.target.files[0] });
+  setImage(event) {
+    const selectedFile = event.target.files[0];
+    const formData = new FormData();
+    formData.append("profile", selectedFile, selectedFile.name);
+    console.log(formData);
+    this.setState({ appendFormData: formData });
   }
   handleUpload() {
-    // console.log(this.state.selectedFile);
-    const formData = new FormData();
-    formData.append(
-      "profile",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
-    console.log(formData);
     axios
-      .post("http://localhost:5000/uploadfile", formData)
+      .post("http://localhost:5000/uploadfile", this.state.appendFormData)
       .then(res => {
         console.log(res.data);
       })
@@ -35,7 +32,7 @@ class TestPage extends Component {
   render() {
     return (
       <div>
-        <input type="file" onChange={event => this.uploadImage(event)} />
+        <input type="file" onChange={event => this.setImage(event)} />
         <button onClick={() => this.handleUpload()}>Upload!</button>
       </div>
     );
